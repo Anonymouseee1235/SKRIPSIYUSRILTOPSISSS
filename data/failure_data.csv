@@ -1,7 +1,0 @@
-Code,Component,Failure Mode,S,O,D,RPN_Conv,FRPN,FTOPSIS_CC,Rank_FTOPSIS
-A1,Drive & Tail Pulley,Putaran roller seret/macet,6,7,4,168,612,0.1533,5
-A2,Gearbox,Mesin mati mendadak (Overload/Wear),10,2,5,100,605,0.7219,1
-A3,Photo Sensor,Sensor gagal mendeteksi karung,7,6,2,84,612,0.2781,4
-A4,Belt Conveyor,Sabuk slip / permukaan aus,7,5,2,70,605,0.3109,3
-A5,Sprocket,Rantai kendor / melompat,6,4,3,72,500,0.1533,6
-A6,Bearing,Bearing pecah / pelumas mengering,5,5,5,125,500,0.6891,2
