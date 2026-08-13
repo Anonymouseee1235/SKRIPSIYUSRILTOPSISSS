@@ -1,0 +1,229 @@
+/* GLOBAL STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    color: #333;
+    padding: 20px;
+}
+
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* HEADER */
+.header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.header-title h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.header-title p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.audio-widget {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 8px 15px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.audio-widget audio {
+    height: 32px;
+}
+
+/* KPI GRID */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.kpi-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-left: 6px solid #ccc;
+}
+
+.kpi-card.danger { border-left-color: #e74c3c; }
+.kpi-card.warning { border-left-color: #f39c12; }
+.kpi-card.info { border-left-color: #3498db; }
+.kpi-card.success { border-left-color: #2ecc71; }
+
+.kpi-icon {
+    font-size: 32px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+}
+
+.danger .kpi-icon { color: #e74c3c; background: #fceae8; }
+.warning .kpi-icon { color: #f39c12; background: #fef5e7; }
+.info .kpi-icon { color: #3498db; background: #ebf5fb; }
+.success .kpi-icon { color: #2ecc71; background: #eafaf1; }
+
+.kpi-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #7f8c8d;
+    letter-spacing: 0.5px;
+}
+
+.kpi-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 3px 0;
+}
+
+.kpi-sub {
+    font-size: 12px;
+    color: #95a5a6;
+}
+
+/* CHARTS GRID */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 992px) {
+    .charts-grid { grid-template-columns: 1fr; }
+}
+
+.chart-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.chart-card h3 {
+    font-size: 16px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+/* TABLE CARD */
+.table-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.table-card h3 {
+    font-size: 16px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f1f5f9;
+}
+
+.rank-badge {
+    background: #e2e8f0;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight:bold;
+}
+
+.rank-1 { background: #fee2e2; color: #991b1b; }
+.rank-2 { background: #fef3c7; color: #92400e; }
+.rank-3 { background: #e0e7ff; color: #3730a3; }
+
+/* PREVENTIVE MAINTENANCE */
+.pm-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.pm-card h3 {
+    font-size: 16px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.pm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.pm-item {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
+}
+
+.pm-item h4 {
+    font-size: 15px;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.pm-item p {
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 4px;
+}
