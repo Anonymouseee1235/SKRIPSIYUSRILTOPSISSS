@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Analisis Risiko Conveyor - PT. ABC</title>
+    <!-- FontAwesome & Chart.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <!-- RUNNING TEXT (MARQUEE) -->
+        <div class="running-text-container">
+            <div class="running-text-icon"><i class="fa-solid fa-bullhorn"></i> INFO UTAMA:</div>
+            <div class="running-text-content">
+                <marquee behavior="scroll" direction="left" scrollamount="6">
+                    🚨 <strong>Pemberitahuan Sistem Pemeliharaan:</strong> Komponen <strong>GEARBOX (A2)</strong> menempati prioritas risiko #1 dengan Nilai Preferensi <strong>0.7219</strong> (Severity Dominan: 63.14%). Disarankan segera melakukan pemeliharaan preventif mingguan pada Gearbox & Bearing! ⚙️
+                </marquee>
+            </div>
+        </div>
+
+        <!-- HEADER & NAVBAR -->
+        <header class="header">
+            <div class="header-main">
+                <div class="header-title">
+                    <h1><i class="fa-solid fa-gears fa-spin" style="--fa-animation-duration: 15s;"></i> Dashboard Analisis Risiko Conveyor Bagging</h1>
+                    <p>PT. ABC Sugar Refinery — Integrasi Fuzzy FMEA, Fuzzy AHP & Fuzzy TOPSIS (Yusril Alfafa)</p>
+                </div>
+                <div class="audio-widget">
+                    <i class="fa-solid fa-music"></i>
+                    <audio controls id="bgAudio">
+                        <source src="assets/audio.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                </div>
+            </div>
+
+            <!-- INTERACTIVE NAVBAR MENU -->
+            <nav class="navbar">
+                <button class="nav-btn active" onclick="switchTab('overview')"><i class="fa-solid fa-chart-pie"></i> Ringkasan Utama</button>
+                <button class="nav-btn" onclick="switchTab('pairwise')"><i class="fa-solid fa-scale-balanced"></i> Perbandingan Kriteria (S, O, D)</button>
+                <button class="nav-btn" onclick="switchTab('evaluation')"><i class="fa-solid fa-list-check"></i> Evaluasi Failure Mode</button>
+                <button class="nav-btn" onclick="switchTab('pm')"><i class="fa-solid fa-wrench"></i> Usulan PM</button>
+                <button class="nav-btn" onclick="switchTab('conclusion')"><i class="fa-solid fa-flag-checkered"></i> Kesimpulan & Rekomendasi</button>
+            </nav>
+        </header>
+
+        <!-- SECTION 1: OVERVIEW & KPI -->
+        <div id="overview-section" class="tab-content active">
+            <!-- KPI CARDS -->
+            <section class="kpi-grid">
+                <div class="kpi-card danger">
+                    <div class="kpi-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">PRIORITAS UTAMA RISIKO</span>
+                        <h3 class="kpi-value">Gearbox (A2)</h3>
+                        <span class="kpi-sub"><i class="fa-solid fa-circle-exclamation"></i> Mesin Mati Mendadak (Overload)</span>
+                    </div>
+                </div>
+                <div class="kpi-card warning">
+                    <div class="kpi-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">SKOR PREFERENSI TERTINGGI (CCi)</span>
+                        <h3 class="kpi-value">0.7219</h3>
+                        <span class="kpi-sub"><i class="fa-solid fa-check-double"></i> Fuzzy TOPSIS Preference Score</span>
+                    </div>
+                </div>
+                <div class="kpi-card info">
+                    <div class="kpi-icon"><i class="fa-solid fa-weight-scale"></i></div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">KRITERIA DOMINAN (FAHP)</span>
+                        <h3 class="kpi-value">Severity (63.14%)</h3>
+                        <span class="kpi-sub"><i class="fa-solid fa-layer-group"></i> Bobot S: 0.63138 | O: 0.26179 | D: 0.10683</span>
+                    </div>
+                </div>
+                <div class="kpi-card success">
+                    <div class="kpi-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+                    <div class="kpi-content">
+                        <span class="kpi-label">TOTAL KOMPONEN DITELITI</span>
+                        <h3 class="kpi-value">6 Komponen</h3>
+                        <span class="kpi-sub"><i class="fa-solid fa-conveyor-belt"></i> Sistem Conveyor Bagging Karung</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHARTS SECTION -->
+            <section class="charts-grid">
+                <div class="chart-card">
+                    <h3><i class="fa-solid fa-chart-bar"></i> Perangkingan Fuzzy TOPSIS (Closeness Coefficient)</h3>
+                    <canvas id="topsisChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3><i class="fa-solid fa-chart-pie"></i> Bobot Kriteria Risiko (Fuzzy AHP)</h3>
+                    <canvas id="ahpChart"></canvas>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECTION 2: PAIRWISE COMPARISONS & NARRATIVE -->
+        <div id="pairwise-section" class="tab-content">
+            <section class="analysis-card">
+                <h2><i class="fa-solid fa-scale-balanced"></i> Analisis Perbandingan Berpasangan (Pairwise Comparison) Kriteria SOD</h2>
+                <p class="section-desc">Berikut adalah hasil evaluasi perbandingan berpasangan kriteria berdasarkan penilaian pakar (*Expert Judgment*) menggunakan skala Triangular Fuzzy Number (TFN) pada metode **Fuzzy AHP**:</p>
+
+                <div class="comparison-grid">
+                    <!-- S vs O -->
+                    <div class="comp-box highlight-blue">
+                        <div class="comp-header">
+                            <span class="comp-badge"><i class="fa-solid fa-arrow-right-arrow-left"></i> Perbandingan 1</span>
+                            <h3>Severity (S) vs Occurrence (O)</h3>
+                        </div>
+                        <div class="comp-score">
+                            <div class="score-tag">Skala Saaty: 3 (Moderately High / Sedikit Lebih Penting)</div>
+                            <div class="fuzzy-tag">TFN: (2, 3, 4)</div>
+                        </div>
+                        <div class="comp-narration">
+                            <p><strong><i class="fa-solid fa-quote-left"></i> Narasi Hasil Analisis:</strong></p>
+                            <p>Kriteria <strong>Severity (S)</strong> dinilai <em>sedikit lebih penting</em> dibandingkan <strong>Occurrence (O)</strong>. Hal ini dikarenakan dampak kerusakan fatal (seperti kegagalan gearbox yang menghentikan seluruh lini bagging secara total) memberikan kerugian finansial dan waktu hentik (*downtime*) yang sangat signifikan, meskipun frekuensi kejadiannya tergolong tidak terlalu sering terjadi dibandingkan gangguan minor lainnya.</p>
+                        </div>
+                    </div>
+
+                    <!-- O vs D -->
+                    <div class="comp-box highlight-orange">
+                        <div class="comp-header">
+                            <span class="comp-badge"><i class="fa-solid fa-arrow-right-arrow-left"></i> Perbandingan 2</span>
+                            <h3>Occurrence (O) vs Detection (D)</h3>
+                        </div>
+                        <div class="comp-score">
+                            <div class="score-tag">Skala Saaty: 3 (Moderately High / Sedikit Lebih Penting)</div>
+                            <div class="fuzzy-tag">TFN: (2, 3, 4)</div>
+                        </div>
+                        <div class="comp-narration">
+                            <p><strong><i class="fa-solid fa-quote-left"></i> Narasi Hasil Analisis:</strong></p>
+                            <p>Kriteria <strong>Occurrence (O)</strong> dinilai <em>sedikit lebih penting</em> dibandingkan <strong>Detection (D)</strong>. Pakar menilai bahwa frekuensi atau tingkat kemunculan suatu gangguan kegagalan secara langsung mempengaruhi produktivitas harian operator. Sebaliknya, tingkat kesulitan deteksi dianggap berada pada prioritas di bawahnya karena sebagian besar komponen mekanis conveyor dapat diinspeksi secara fisik maupun visual selama jam kerja rutin.</p>
+                        </div>
+                    </div>
+
+                    <!-- D vs S -->
+                    <div class="comp-box highlight-purple">
+                        <div class="comp-header">
+                            <span class="comp-badge"><i class="fa-solid fa-arrow-right-arrow-left"></i> Perbandingan 3</span>
+                            <h3>Severity (S) vs Detection (D)</h3>
+                        </div>
+                        <div class="comp-score">
+                            <div class="score-tag">Skala Saaty: 5 (High Important / Lebih Penting)</div>
+                            <div class="fuzzy-tag">TFN: (4, 5, 6)</div>
+                        </div>
+                        <div class="comp-narration">
+                            <p><strong><i class="fa-solid fa-quote-left"></i> Narasi Hasil Analisis:</strong></p>
+                            <p>Kriteria <strong>Severity (S)</strong> dinilai <em>lebih penting secara mutlak/dominan</em> dibandingkan <strong>Detection (D)</strong>. Mengetahui lokasi kerusakan tanpa mampu mencegah dampak besar tidak akan meminimalkan *downtime* pabrik. Oleh karena itu, bobot Severity menjadi kriteria paling krusial (63.14%) dalam penentuan prioritas risiko pada sistem conveyor bagging ini.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONSISTENCY TEST BOX -->
+                <div class="consistency-card">
+                    <h4><i class="fa-solid fa-shield-check"></i> Uji Konsistensi Matriks (Consistency Test)</h4>
+                    <div class="consistency-metrics">
+                        <div><span><i class="fa-solid fa-calculator"></i> Lambda Max (&lambda; max):</span> <strong>3.039</strong></div>
+                        <div><span><i class="fa-solid fa-circle-info"></i> Consistency Index (CI):</span> <strong>0.019</strong></div>
+                        <div><span><i class="fa-solid fa-square-check"></i> Consistency Ratio (CR):</span> <strong class="text-success">0.033 (&lt; 0.10 - KONSISTEN)</strong></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECTION 3: EVALUATION TABLE -->
+        <div id="evaluation-section" class="tab-content">
+            <section class="table-card">
+                <h3><i class="fa-solid fa-table-list"></i> Tabel Evaluasi Failure Mode & Perbandingan Ranking</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Kode</th>
+                                <th>Komponen</th>
+                                <th>Failure Mode (Bentuk Kegagalan)</th>
+                                <th>S</th>
+                                <th>O</th>
+                                <th>D</th>
+                                <th>RPN Konv.</th>
+                                <th>Nilai CCi (FTOPSIS)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="riskTableBody">
+                            <!-- Populated by script.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECTION 4: PREVENTIVE MAINTENANCE -->
+        <div id="pm-section" class="tab-content">
+            <section class="pm-card">
+                <h3><i class="fa-solid fa-screwdriver-wrench"></i> Usulan Strategi Preventive Maintenance (Prioritas Utama)</h3>
+                <div class="pm-grid">
+                    <div class="pm-item">
+                        <h4>🥇 Gearbox (Rank 1 - CCi: 0.7219)</h4>
+                        <p><i class="fa-solid fa-square-check text-primary"></i> <strong>Inspeksi Rutin:</strong> Cek suhu dan getaran mingguan menggunakan <em>thermogun</em> & vibration meter.</p>
+                        <p><i class="fa-solid fa-square-check text-primary"></i> <strong>Pelumasan:</strong> Penggantian oli pelumas gearbox secara berkala setiap 6 bulan.</p>
+                    </div>
+                    <div class="pm-item">
+                        <h4>🥈 Bearing (Rank 2 - CCi: 0.6891)</h4>
+                        <p><i class="fa-solid fa-square-check text-primary"></i> <strong>Greasing:</strong> Pelumasan bearing setiap 2 minggu dengan <em>food-grade grease</em>.</p>
+                        <p><i class="fa-solid fa-square-check text-primary"></i> <strong>Cleaning:</strong> Pembersihan housing bearing dari kontaminasi debu gula halus setiap minggu.</p>
+                    </div>
+                    <div class="pm-item">
+                        <h4>🥉 Belt Conveyor (Rank 3 - CCi: 0.3109)</h4>
+                        <p><i class="fa-solid fa-square-check text-primary"></i> <strong>Tension Check:</strong> Pemeriksaan visual ketegangan dan kelurusan sabuk setiap minggu.</p>
+                        <p><i class="fa-solid fa-square-check text-primary"></i> <strong>Pulley Clean:</strong> Pembersihan permukaan pulley dari timbunan debu gula setiap hari.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECTION 5: CONCLUSION & RECOMMENDATIONS -->
+        <div id="conclusion-section" class="tab-content">
+            <section class="conclusion-card">
+                <h2><i class="fa-solid fa-flag-checkered"></i> Kesimpulan Penelitian & Rekomendasi</h2>
+                <div class="conclusion-grid">
+                    <div class="conclusion-box">
+                        <h3><i class="fa-solid fa-lightbulb"></i> Kesimpulan Utama Skripsi:</h3>
+                        <ol class="conclusion-list">
+                            <li><strong>Identifikasi Kegagalan:</strong> Terdapat 6 <em>failure mode</em> utama pada conveyor bagging PT. ABC, yaitu pada Gearbox, Bearing, Belt Conveyor, Photo Sensor, Drive & Tail Pulley, dan Sprocket.</li>
+                            <li><strong>Pembobotan Kriteria (Fuzzy AHP):</strong> Kriteria <strong>Severity (S)</strong> memiliki bobot tertinggi sebesar <strong>0.63138 (63.14%)</strong>, diikuti <strong>Occurrence (O)</strong> sebesar <strong>0.26179 (26.18%)</strong>, dan <strong>Detection (D)</strong> sebesar <strong>0.10683 (10.68%)</strong> dengan Consistency Ratio CR = 0.033 (&lt; 0.1).</li>
+                            <li><strong>Prioritas Risiko (Fuzzy TOPSIS):</strong> Komponen <strong>Gearbox (A2)</strong> menduduki peringkat risiko tertinggi (#1) dengan nilai preferensi $CC_i = 0.7219$, disusul oleh <strong>Bearing (A6)</strong> dengan $CC_i = 0.6891$, dan <strong>Belt Conveyor (A4)</strong> dengan $CC_i = 0.3109$.</li>
+                        </ol>
+                    </div>
+
+                    <div class="recommendation-box">
+                        <h3><i class="fa-solid fa-handshake-angle"></i> Rekomendasi Manajerial untuk PT. ABC:</h3>
+                        <ul class="recommendation-list">
+                            <li><i class="fa-solid fa-circle-check text-success"></i> Mengubah paradigma pemeliharaan dari <em>Corrective/Reactive Maintenance</em> menjadi <strong>Preventive Maintenance</strong> terencana berbasis skala prioritas Fuzzy TOPSIS.</li>
+                            <li><i class="fa-solid fa-circle-check text-success"></i> Mengalokasikan anggaran dan jadwal perawatan rutin secara lebih intensif pada 3 komponen teratas (Gearbox, Bearing, Belt Conveyor).</li>
+                            <li><i class="fa-solid fa-circle-check text-success"></i> Menyediakan stok cadangan (*spare parts*) kritis untuk komponen Gearbox dan Bearing di area gudang pemeliharaan guna meminimalkan *waiting time* saat terjadi gangguan.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
